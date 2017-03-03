@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Conversation Agent Demo User Interface</title>
+	<!-- load css library -->
+    <link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+  </head>
+
+  <body style="overflow:hidden">
+    <div class="wrapper">
+    <div class="container" style="top:45%">
+		<!-- left sidebar -->
+	   <div class="left">
+	   <ul class="people">
+				<li class="logo">
+				<img src="miracle.png" alt="" />
+				</li>
+			</ul>
+            <div class="top">
+                <input type="text" placeholder="Search"/>
+                <a href="javascript:;" class="search"></a>
+            </div>
+            <ul class="people">
+			  <li class="person" data-chat="person2">
+                  <img src="userImage.png" alt="" style="width:15%;height:15%" />
+                  <span class="name">APCloud Bot</span>
+                  <span class="preview">Online</span>
+              </li>
+            </ul>
+			<ul class="people">
+				<li class="img">
+				<img src="apcloudlogo.png" alt="" style="width:245px"/>
+				</li>
+			</ul>
+        </div>
+		
+		<!-- right chat window -->
+        <div class="right">
+            <div class="top"><span><span class="name">Conversation Agent Demo User Interface</span></span></div>
+            <div class="chat" data-chat="person2">
+				<!--<div id="hell1" class="bubble you"></div>
+				<div id="hell" class="bubble me"></div> -->
+            </div>
+
+            <div class="write">
+			<form>
+			<input id="m" autocomplete="off" name="SEND" />
+
+                <a href="javascript:;" class="write-link send" id="send"></a>
+				</form>
+            </div>
+        </div>
+		<!-- end of right window -->
+    </div>
+</div>
+    <!-- load js library -->
+	    <script src="http://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src="js/index.js"></script>
+	
+	<script>
+	//var context;
+      var socket = io();
+	  var output1={};
+	  var contextq={};
+	  var dat
+      $('form').submit(function(){
+
+			var inpu=[];
+inpu=$('#m').val();
+var op=output1;
+
+	$('.chat').append('<div class="bubble me">'+$('#m').val()+'</div>');
+     
+		 dat={"context": contextq,
+          "input": { "text": $('#m').val() }
+		}
+
+        socket.emit('chat message', dat);
+
+		$('#m').val('');
+        return false;
+      });
+  socket.on('chat',function(msg1){
+
+	  contextq=msg1.context;
+	  message=msg1.output.text[0];
+	  window.value=message;
+	  socket.emit('chat', message);
+
+		$('.chat').append('<div class="bubble you">'+message+'</div>');              
+	  })
+		
+    </script>
+
+	
+  </body>
+</html>

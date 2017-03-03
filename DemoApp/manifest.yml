@@ -1,0 +1,8 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: <Enter your domain name>
+  name: <Enter your app name>
+  host: <Enter your host name>
+  disk_quota: 1024M
